@@ -1,21 +1,22 @@
 require 'set'
 require 'googleauth'
 require 'google/apis/sheets_v4'
+require 'google/apis/drive_v3'
 
-# # Uncomment this to inspect requests made to the google API
-# module Google
-#   module Apis
-#     module Core
-#       class HttpClientAdapter
-#         alias old_call call
-#         def call(request)
-#           puts request.inspect
-#           old_call(request)
-#         end
-#       end
-#     end
-#   end
-# end
+# Uncomment this to inspect requests made to the google API
+module Google
+  module Apis
+    module Core
+      class HttpClientAdapter
+        alias old_call call
+        def call(request)
+          puts request.inspect
+          old_call(request)
+        end
+      end
+    end
+  end
+end
 
 module SheetsAPI
   if !File.file? "#{Dir.pwd}/GoogleAPICredentials.json"
@@ -29,10 +30,13 @@ module SheetsAPI
   SheetService = Google::Apis::SheetsV4::SheetsService.new
   SheetService.authorization = authorization
 
+  DriveService = Google::Apis::DriveV3::DriveService.new
+  DriveService.authorization = authorization
+
   class << self
     # This will raise if the document cannot be opened
-    def document(id)
-      return Document.new(id)
+    def document(name: nil, id: nil)
+      return Document.new(documentName: name, documentId: id)
     end
   end
 
@@ -88,7 +92,14 @@ module SheetsAPI
   end
 
   class Document
-    def initialize(documentId)
+    def initialize(documentId: nil, documentName: 'unnamed')
+      if !documentId
+        file = DriveService.create_file(Google::Apis::DriveV3::File.new(mime_type: 'application/vnd.google-apps.spreadsheet', name: documentName))
+        documentId = file.id
+        a = Google::Apis::DriveV3::Permission.new(type: 'user', role: 'owner', email_address: 'goffert@phusion.nl')
+        puts a.inspect
+        DriveService.create_permission(documentId, a, transfer_ownership: true)
+      end
       @id = documentId
       @document = SheetService.get_spreadsheet(documentId)
     end
@@ -119,3 +130,5 @@ module SheetsAPI
     end
   end
 end
+
+puts SheetsAPI.document(name: 'test')
