@@ -24,35 +24,37 @@ In the GoogleAPICredentials.json file you will find a `client_email` field. Shar
 Usage
 =====
 
-    document = SheetsAPI.document("1xuQVCadaMmTPiz_13hXuZHGKDihc41w5aii4DtuxOmU5j_eQ4BD98T-H")
-    sheet = document.sheet("Daily Sales")
-    sheet.insert(
-      index: [:Date, :Client],
-      sort: true,
-      upsert: true,
-      rows: [
-        {
-          Date: Date.new(2017,3,9),
-          Client: "Some Guy",
-          Email: "guy@client.com",
-          Sales: 14,
-          Profit: 5
-        },
-        {
-          Date: Date.new(2017,3,9),
-          Client: "Other Guy",
-          Sales: 2,
-          Profit: -1
-        },
-        {
-          Date: Date.new(2017,3,10),
-          Client: "Some Guy",
-          Email: "guy@client.com",
-          Sales: 8,
-          Margin: 3
-        }
-      ]
-    )
+~~~ruby
+document = SheetsAPI.document("1xuQVCadaMmTPiz_13hXuZHGKDihc41w5aii4DtuxOmU5j_eQ4BD98T-H")
+sheet = document.sheet("Daily Sales")
+sheet.insert(
+  index: [:Date, :Client],
+  sort: true,
+  upsert: true,
+  rows: [
+    {
+      Date: Date.new(2017,3,9),
+      Client: "Some Guy",
+      Email: "guy@client.com",
+      Sales: 14,
+      Profit: 5
+    },
+    {
+      Date: Date.new(2017,3,9),
+      Client: "Other Guy",
+      Sales: 2,
+      Profit: -1
+    },
+    {
+      Date: Date.new(2017,3,10),
+      Client: "Some Guy",
+      Email: "guy@client.com",
+      Sales: 8,
+      Margin: 3
+    }
+  ]
+)
+~~~
 
 Insert Parameters
 =================
