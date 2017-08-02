@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'sheetsapi'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2017-03-08'
   s.summary     = "A simple API for writing to Google Sheets"
   s.description = "A simple API for writing to Google Sheets"
