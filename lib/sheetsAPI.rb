@@ -132,4 +132,3 @@ module SheetsAPI
   end
 end
 
-puts SheetsAPI.document(name: 'test')
