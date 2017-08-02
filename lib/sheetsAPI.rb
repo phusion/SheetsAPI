@@ -20,10 +20,11 @@ end
 
 module SheetsAPI
   if !File.file? "#{Dir.pwd}/GoogleAPICredentials.json"
-    raise "Missing Google API Credentials: #{Dir.pwd}/GoogleAPICredentials.json"
+    puts "WARNING -- Missing Google API Credentials: #{Dir.pwd}/GoogleAPICredentials.json"
+  else
+    ENV["GOOGLE_APPLICATION_CREDENTIALS"] = "#{Dir.pwd}/GoogleAPICredentials.json"
   end
 
-  ENV["GOOGLE_APPLICATION_CREDENTIALS"] = "#{Dir.pwd}/GoogleAPICredentials.json"
   scopes = ['https://www.googleapis.com/auth/drive']
   authorization = Google::Auth.get_application_default(scopes)
 
