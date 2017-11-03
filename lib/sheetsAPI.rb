@@ -25,14 +25,16 @@ module SheetsAPI
     ENV["GOOGLE_APPLICATION_CREDENTIALS"] = "#{Dir.pwd}/GoogleAPICredentials.json"
   end
 
-  scopes = ['https://www.googleapis.com/auth/drive']
-  authorization = Google::Auth.get_application_default(scopes)
+  if ENV["GOOGLE_APPLICATION_CREDENTIALS"]
+    scopes = ['https://www.googleapis.com/auth/drive']
+    authorization = Google::Auth.get_application_default(scopes)
 
-  SheetService = Google::Apis::SheetsV4::SheetsService.new
-  SheetService.authorization = authorization
+    SheetService = Google::Apis::SheetsV4::SheetsService.new
+    SheetService.authorization = authorization
 
-  DriveService = Google::Apis::DriveV3::DriveService.new
-  DriveService.authorization = authorization
+    DriveService = Google::Apis::DriveV3::DriveService.new
+    DriveService.authorization = authorization
+  end
 
   class << self
     # This will raise if the document cannot be opened
