@@ -3,21 +3,6 @@ require 'googleauth'
 require 'google/apis/sheets_v4'
 require 'google/apis/drive_v3'
 
-# Uncomment this to inspect requests made to the google API
-module Google
-  module Apis
-    module Core
-      class HttpClientAdapter
-        alias old_call call
-        def call(request)
-          puts request.inspect
-          old_call(request)
-        end
-      end
-    end
-  end
-end
-
 module SheetsAPI
   if !File.file? "#{Dir.pwd}/GoogleAPICredentials.json"
     puts "WARNING -- Missing Google API Credentials: #{Dir.pwd}/GoogleAPICredentials.json"
